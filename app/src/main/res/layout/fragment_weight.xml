@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"></LinearLayout>
+
+    <view
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/weight_fragment_tab_height"
+        class="com.inhand.milk.fragment.weight.WeightTab"
+        android:id="@+id/weight_tabs"
+        android:scrollbars="none"
+        android:background="#000000" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/weight_fragment_line_height"
+        android:background="#c8c8c8"
+        android:id="@+id/weight_fragment_line_container">
+
+
+    </LinearLayout>
+</LinearLayout>

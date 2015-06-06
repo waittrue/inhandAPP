@@ -316,4 +316,8 @@
     <dimen name="health_last_drink_item_ring_text1_size">20dp</dimen>
     <dimen name="health_last_drink_item_ring_text2_size">10dp</dimen>
 
+    <!--weight_fragment-->
+    <dimen name="weight_fragment_line_height">2dp</dimen>
+    <dimen name="weight_fragment_tab_height">40dp</dimen>
+
 </resources>

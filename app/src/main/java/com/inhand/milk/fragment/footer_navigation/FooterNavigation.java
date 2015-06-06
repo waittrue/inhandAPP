@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
 import com.inhand.milk.R;
 import com.inhand.milk.fragment.health.HealthFragment;
 import com.inhand.milk.fragment.home.HomeFragment;
 import com.inhand.milk.fragment.milk_amount.MilkAmountFragment;
 import com.inhand.milk.fragment.temperature_amount.AmountStatistics;
 import com.inhand.milk.fragment.temperature_amount.TemperatureStatistics;
+import com.inhand.milk.fragment.weight.WeightFragment;
 
 public class FooterNavigation extends Fragment {
 
@@ -23,6 +25,7 @@ public class FooterNavigation extends Fragment {
 	private HomeFragment home;
 	private HealthFragment health;
     private MilkAmountFragment milkAmountFragment;
+    private WeightFragment weight;
 	private FooterButtonsManager buttonsManager ;
 	
 	@Override
@@ -49,7 +52,8 @@ public class FooterNavigation extends Fragment {
 		buttonsManager = new FooterButtonsManager( fragmentManager);
 		//tempreture = new TemperatureStatistics();
         milkAmountFragment = new MilkAmountFragment();
-		amount = new AmountStatistics();
+		//amount = new AmountStatistics();
+        weight = new WeightFragment();
 		health = new HealthFragment();
 		home = new HomeFragment();
 		//bluetooth = new bluetooth_fragment(((MainActivity)FooterNavigation.this.getActivity() ).getBluetooth() );
@@ -62,7 +66,7 @@ public class FooterNavigation extends Fragment {
 		buttonsManager.addButtons(button,milkAmountFragment);
 		
 		button = (ImageButton)view.findViewById(R.id.buttons_milk_icon);
-		buttonsManager.addButtons(button,amount);
+		buttonsManager.addButtons(button,weight);
 		
 		button = (ImageButton)view.findViewById(R.id.buttons_health);
 		buttonsManager.addButtons(button,health);	

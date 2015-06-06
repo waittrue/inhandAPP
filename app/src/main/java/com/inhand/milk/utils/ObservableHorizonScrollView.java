@@ -3,7 +3,6 @@ package com.inhand.milk.utils;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
-import android.widget.ScrollView;
 
 public class ObservableHorizonScrollView extends HorizontalScrollView {  
 	  
@@ -31,13 +30,13 @@ public class ObservableHorizonScrollView extends HorizontalScrollView {
         super.onScrollChanged(x, y, oldx, oldy);  
         if (scrollViewListener != null) {  
             scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);  
-        }  
-    }  
-  
+        }
+    }
 
-    public interface ScrollViewListener {  
+
+    public interface ScrollViewListener {
     	  
         void onScrollChanged(ObservableHorizonScrollView scrollView, int x, int y, int oldx, int oldy);  
-      
+
     }  
 }
