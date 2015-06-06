@@ -3,7 +3,7 @@ package com.inhand.milk.fragment.bluetooth;
 /**
  * Created by Administrator on 2015/5/30.
  */
-public class RequsetVerbose extends BaseBluetoothMessages {
+public class RequsetVerbose extends BaseSendMessages {
     private byte[] bytes;
     private static final int MAXLEN = 10;
     private int flags =0;

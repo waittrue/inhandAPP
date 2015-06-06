@@ -12,6 +12,8 @@ import android.content.IntentFilter;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.inhand.milk.App;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -148,7 +150,7 @@ public class Bluetooth {
         activity = act;
 
         if(paired == null){
-            Toast.makeText(activity.getApplicationContext(),"请去配对蓝牙",1000).show();
+            Toast.makeText(App.getAppContext(),"请去配对蓝牙",1000).show();
         }
     }
     public boolean hasPaired(){
@@ -167,7 +169,7 @@ public class Bluetooth {
                 if  (device.getAddress().equals( getDefaultMac() ) ) {
                     return device;
                 }
-                if (device.getName().equals( "GT_N7100")){
+                if (device.getName().equals( "HUAWEI MT7-TL10")){
                     Log.i(" find device",device.getName());
                     return device;
                 }
@@ -192,22 +194,22 @@ public class Bluetooth {
                      Toast.LENGTH_LONG).show();
             return ;
         }
-        if (activity != null) {
-            Toast.makeText(activity.getApplicationContext(), "准备连接入" + paired.getName(),
-                    Toast.LENGTH_LONG).show();
-        }
+
         if(connectThread == null){
-            connectThread = new ConnectThread(paired);
-            connectThread.start();
+            ShutConnect();
         }
+        connectThread = new ConnectThread(paired);
+        connectThread.start();
     }
 
 
     private boolean  connect(BluetoothSocket socket ){
         if(socket ==null)
             return false;
-       if (connectedThread != null)
+       if (connectedThread != null) {
            connectedThread.cancel();
+           connectedThread.interrupt();
+       }
 
         connectedThread = new ConnectedThread(socket);
         connectedThread.start();
@@ -229,11 +231,14 @@ public class Bluetooth {
     }
 
     public void ShutConnect(){
-        if(connectedThread == null) {
-            if (connectThread != null)
+
+        if (connectThread != null) {
                 connectThread.cancel();
+                connectThread.interrupt();
+                 connectThread = null;
         }
-        else {
+
+        if (connectedThread != null){
             connectedThread.cancel();
             connectedThread.interrupt();
             connectedThread = null;
@@ -269,25 +274,24 @@ public class Bluetooth {
         public void run() {
             // Cancel discovery because it will slow down the connection
             bluetoothAdapter.cancelDiscovery();
-
-            try {
-                // Connect the device through the socket. This will block
-                // until it succeeds or throws an exception
-                socket.connect();
-            } catch (IOException connectException) {
-                // Unable to connect; close the socket and get out
-                Log.i("bluetooth", "连入"+paired.getName()+"失败");
+            while(true) {
                 try {
-                    socket.close();
-                } catch (IOException closeException) { }
-                return;
+                    socket.connect();
+                    break;
+                } catch (IOException connectException) {
+                    Log.i("bluetooth", "连入" + paired.getName() + "失败");
+                    /*
+                    try {
+                        socket.close();
+                    } catch (IOException closeException) {
+                    }
+                    */
+                }
             }
             Log.i("bluetooth", "连入"+paired.getName()+":成功创建了socket");
             connect(socket);
             if (mListener != null)
                 mListener.pairedSuccess();
-            // Do work to manage the connection (in a separate thread)
-
         }
 
         /** Will cancel an in-progress connection, and close the socket */
@@ -305,14 +309,13 @@ public class Bluetooth {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-
+        private byte[] buffer;
+        private int bytes;
         public ConnectedThread(BluetoothSocket mmsocket) {
             mmSocket = mmsocket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
-
-            // Get the input and output streams, using temp objects because
-            // member streams are final
+            buffer = new byte[1024];
             try {
                 tmpIn = mmsocket.getInputStream();
                 tmpOut = mmsocket.getOutputStream();
@@ -323,8 +326,7 @@ public class Bluetooth {
         }
 
         public void run() {
-            byte[] buffer = new byte[1024];  // buffer store for the stream
-            int bytes; // bytes returned from read()
+
 
             // Keep listening to the InputStream until an exception occurs
             while (true) {
@@ -338,7 +340,6 @@ public class Bluetooth {
                 Log.i(  "连入", String.valueOf(  mmSocket.isConnected() )  );
                 try {
                     Log.i("bluetooth", "连入成功—等待数据");
-                    // Read from the InputStream
                     bytes = mmInStream.read(buffer);
                     // Send the obtained bytes to the UI activity
                   /*  mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
@@ -346,14 +347,16 @@ public class Bluetooth {
                             */
                     if (bluetoothData.saveData(buffer,bytes) == false) {
                         bluetoothData.handleMessage();
+                        bluetoothData.saveData(buffer,bytes);
                     }
-                    bluetoothData.saveData(buffer,bytes);
-                    Log.i("len", String.valueOf(bytes));
-                    Log.i("run ",(String) new String(  buffer  ).subSequence(0 , bytes)  )  ;
                 } catch (IOException e) {
                     break;
                 }
             }
+            Log.i("连接失败","抛出异常");
+
+           connectThread = new ConnectThread(paired);
+           connectThread.start();
         }
 
         /* Call this from the main activity to send data to the remote device */
@@ -390,9 +393,7 @@ public class Bluetooth {
             public void run() {
 
                 BluetoothSocket socket = null;
-                // Keep listening until exception occurs or a socket is returned
                 while (true) {
-
                     try {
                         Log.i("bluetooth","listening ......");
                         socket = mmServerSocket.accept();
@@ -401,7 +402,6 @@ public class Bluetooth {
                     }
                     // If a connection was accepted
                     if (socket != null) {
-                        // Do work to manage the connection (in a separate thread)
                         Log.i("bluetooth","accpted");
                         try {
                             mmServerSocket.close();

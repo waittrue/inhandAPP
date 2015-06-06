@@ -5,6 +5,7 @@ package com.inhand.milk.utils;
  */
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,10 +14,12 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.inhand.milk.R;
+
 
 public class RingWithText extends View {
     private float mR,paintWidth,circleR;
-    private int ringBgColor = 0,ringColor=0,textColor= Color.WHITE;
+    private int ringBgColor = 0,ringColor=0,textColor= Color.BLACK;
     private float maxSweepAngle=0,sweepAngle=0;
     private String[] texts;
     private float[] textSizes;
@@ -30,7 +33,6 @@ public class RingWithText extends View {
         mR = r;
         paintWidth = mR/15;
         circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
-
     }
     public RingWithText(Context context) {
         super(context);
@@ -40,23 +42,38 @@ public class RingWithText extends View {
     }
     public RingWithText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mR = 0;
-        paintWidth = mR/15;
-        circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
+        attrsInit(context,attrs);
     }
 
     public RingWithText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mR = 0;
-        paintWidth = mR/15;
-        circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
+       attrsInit(context,attrs);
     }
+    private void attrsInit(Context context,AttributeSet attrs){
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.RingWithText);
+        mR = a.getDimension(R.styleable.RingWithText_R,0);
+        paintWidth = a.getDimension(R.styleable.RingWithText_RingWidth,0);
+        circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
 
+        float textSize1,textSize2,textSize3;
+        int count=0;
+        textSize1 =a.getDimension(R.styleable.RingWithText_textSizes1,0);
+        textSize2 =a.getDimension(R.styleable.RingWithText_textSizes2,0);
+        textSize3 =a.getDimension(R.styleable.RingWithText_textSizes3,0);
+        if(textSize1 != 0) count++;
+        if(textSize2 != 0) count++;
+        if(textSize3 != 0) count++;
+        textSizes = new float[count];
+        count = 0;
+        if(textSize1 != 0) textSizes[count++] = textSize1;
+        if(textSize2 != 0) textSizes[count++] = textSize2;
+        if(textSize3 != 0) textSizes[count++] = textSize3;
+
+    }
     public RingWithText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        mR = 0;
-        paintWidth = mR/15;
-        circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
+        attrsInit(context,attrs);
     }
 
     public void setRingBgColor(int ringBgColor) {
@@ -66,7 +83,8 @@ public class RingWithText extends View {
         this.ringColor = ringColor;
     }
 
-    public void setPaintWidth(float paintWidth) {
+    public void
+    setRingWidth(float paintWidth) {
         this.paintWidth = paintWidth;
         circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
     }
@@ -74,6 +92,7 @@ public class RingWithText extends View {
         maxSweepAngle = a;
         sweepAngle = maxSweepAngle;
     }
+
     public void setTexts(String[] strings,float[] sizes){
         if (strings.length != sizes.length)
              return;
@@ -87,6 +106,16 @@ public class RingWithText extends View {
         textSizes = sizes;
         textColors = colors;
     }
+    public void setTexts(String[] strings){
+        texts = strings;
+    }
+    public void setTexts(float[] sizes){
+        textSizes = sizes;
+    }
+    public void setTexts(int[] colors){
+        textColors = colors;
+    }
+
     public void setTextColor(int color){
         this.textColor = color;
     }
@@ -127,7 +156,7 @@ public class RingWithText extends View {
     }
     private void drawText(Canvas canvas){
         float height=0,currentHeight,width;
-        int i;
+        int i,count;
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStrokeWidth(paintWidth);
@@ -136,9 +165,13 @@ public class RingWithText extends View {
             height+= textSizes[i];
         }
         currentHeight = mR - height/2;
-        for(i=0;i<texts.length;i++){
-            if (textColors == null)
+        count = texts.length;
+        if (count > textSizes.length)
+            count = textSizes.length;
+        for(i=0;i<count;i++){
+            if (textColors == null || i >textColors.length-1) {
                 paint.setColor(textColor);
+            }
             else
                 paint.setColor(textColors[i]);
             paint.setTextSize(textSizes[i]);

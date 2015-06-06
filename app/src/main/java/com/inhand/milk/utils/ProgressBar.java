@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -99,7 +98,7 @@ public class ProgressBar extends View {
         if (handler == null)
             handler  =new android.os.Handler();
         currentNum = 0;
-        Log.i("maxNum",String.valueOf(maxNum));
+     //   Log.i("maxNum",String.valueOf(maxNum));
         Runnable runnable =new Runnable() {
             @Override
             public void run() {

@@ -152,4 +152,24 @@
     <string name="milk_amount_advise_num_doc">小兜建议喝奶：</string>
     <string name="milk_amount_advise_ring_up_doc">今天已经完成</string>
     <string name="milk_amount_drink_total_num_doc">饮奶次数:</string>
+    
+    <!--health last drink -->
+    <string name="health_last_drink_title">上次饮奶</string>
+    <string name="health_last_drink_duration">持续饮奶时间</string>
+    <string name="health_last_drink_duration_more_doc">偏长：单次饮奶20分钟最合适</string>
+    <string name="health_last_drink_duration_less_doc">太快：单次饮奶20分钟最合适</string>
+    <string name="health_last_drink_duration_suit_doc">合适：单次饮奶20分钟最合适</string>
+    <string name="health_last_drink_amount">饮奶奶量</string>
+    <string name="health_last_drink_amount_more_doc">过多:请下次注意</string>
+    <string name="health_last_drink_amount_less_doc">太少:请下次注意</string>
+    <string name="health_last_drink_amount_suit_doc">合适:请继续保持</string>
+    <string name="health_last_drink_begin_temperature">饮奶开始温度</string>
+    <string name="health_last_drink_begin_temperature_more_doc">偏高：请注意哦，这样对宝宝不好</string>
+    <string name="health_last_drink_begin_temperature_less_doc">偏低：小心宝宝喝了对胃不好</string>
+    <string name="health_last_drink_begin_temperature_suit_doc">合适：很好请继续保持</string>
+    <string name="health_last_drink_end_temperature">饮奶结束温度</string>
+    <string name="health_last_drink_end_temperature_less_doc">偏低：注意低温注意低温</string>
+    <string name="health_last_drink_end_temperature_more_doc">偏高：注意注意注意</string>
+    <string name="health_last_drink_end_temperature_suit_doc">合适：很好很好很好</string>
+
 </resources>

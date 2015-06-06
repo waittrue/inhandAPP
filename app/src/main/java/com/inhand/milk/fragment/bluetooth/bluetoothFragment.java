@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.inhand.milk.R;
 
@@ -23,7 +22,8 @@ public class bluetoothFragment extends Fragment {
         View view;
         view = inflater.inflate(R.layout.bluetooth_test,null);
         bluetooth = Bluetooth.getInstance();
-        bluetooth.asServer();
+        //bluetooth.asServer();
+        bluetooth.asClient();
         bluetooth.setActivity(this.getActivity());
         setlistener(view);
         return  view;
@@ -34,14 +34,12 @@ public class bluetoothFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str;
-
-                byte[] send = new byte[100];
-                int count=0;
+               String str;
+               byte[] send = new byte[100];
+               int count=0;
                count = new OneDayMessageTest(getActivity().getApplication()).message2Bytes(send);
-               Toast.makeText(getActivity().getApplicationContext(), String.valueOf(count), 1000).show();
-                bluetooth.sendStream(send, count);
-                //editText.setText(null);
+               bluetooth.sendStream(send, count);
+               //editText.setText(null);
             }
         });
     }

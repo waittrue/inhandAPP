@@ -1,17 +1,21 @@
 package com.inhand.milk.fragment.bluetooth;
 
+import android.widget.Toast;
+
+import com.inhand.milk.App;
+
 import java.security.InvalidParameterException;
 
 /**
  * Created by Administrator on 2015/5/30.
  * 主要完成message到byte[]的转换，并提供返回给用户byte[]的方法；
  */
-public class BaseBluetoothMessages {
+public class BaseSendMessages {
     private static int MAXLEN = 1024;
     private byte[] buf;
     private int bufLen;
     public static final int DataInvaild = 1,DataVaild = 2,DataError =3;
-    BaseBluetoothMessages(){
+    BaseSendMessages(){
         buf = new byte[MAXLEN];
         bufLen = 0;
     }
@@ -106,6 +110,7 @@ public class BaseBluetoothMessages {
         low = high%256;
         high = high/256;
         decimal = (int)((value - (int)value)*256);
+        Toast.makeText(App.getAppContext(),String.valueOf(decimal),1000).show();
         buffer[used] = 0x00;
         buffer[used+1]= (byte)high;
         buffer[used+2]= (byte)low;

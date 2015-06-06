@@ -8,7 +8,8 @@
         android:id="@+id/title_background"
         android:layout_width="match_parent"
        	android:layout_height="@dimen/temperature_milk_title_height"
-        android:gravity="start" >
+        android:gravity="start"
+        >
 
         <TextView
             android:id="@+id/title_text"
@@ -33,4 +34,10 @@
              />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/milk_amount_title_divider"
+        android:background="@color/milk_amount_advise_text_color"></LinearLayout>
 </LinearLayout>

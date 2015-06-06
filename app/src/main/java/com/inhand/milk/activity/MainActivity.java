@@ -31,9 +31,10 @@ import java.util.Map;
 
 public class MainActivity extends BaseActivity {
 
-    private FooterNavigation buttons  ;
+    private FooterNavigation buttons ;
     private Bluetooth bluetooth ;
     private SlidingMenu menu;
+    private OnClickListener  onClickListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +51,14 @@ public class MainActivity extends BaseActivity {
         // bluetooth.openBlue();
         //bluetooth.startSearch();
         setSlidingMenu();
+        onClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                menu.toggle();
+            }
+        };
+
 
     }
 
@@ -89,16 +98,6 @@ public class MainActivity extends BaseActivity {
         listView.setAdapter(simpleAdapter);
 
     }
-
-
-    private OnClickListener  onClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            menu.toggle();
-        }
-    };
-
 
     public android.view.View.OnClickListener getMyOnclickListener(){
         return onClickListener;

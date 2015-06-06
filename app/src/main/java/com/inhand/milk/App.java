@@ -1,6 +1,7 @@
 package com.inhand.milk;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.AVUser;
@@ -20,13 +21,15 @@ import com.inhand.milk.utils.ACache;
 public class App extends Application {
     public static final String BABY_CACHE_KEY = "current_baby";
     public static Baby currentBaby = null;
+    private static Context context =null;
 
     @Override
     public void onCreate() {
         super.onCreate();
         //初始化LeanCloud
-        LeanCloudHelper.initLeanCloud(this);
+       LeanCloudHelper.initLeanCloud(this);
         initCurrentBaby();
+        context = getApplicationContext();
     }
 
 
@@ -62,6 +65,9 @@ public class App extends Application {
         if (AVUser.getCurrentUser() == null)
             return false;
         return true;
+    }
+    public static Context getAppContext(){
+        return context;
     }
 
 }

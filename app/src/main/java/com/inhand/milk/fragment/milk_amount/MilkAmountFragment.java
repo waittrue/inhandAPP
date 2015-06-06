@@ -1,9 +1,9 @@
 package com.inhand.milk.fragment.milk_amount;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import com.inhand.milk.R;
 import com.inhand.milk.fragment.TitleFragment;
-import com.inhand.milk.utils.HeadListViewAdpter;
-import com.inhand.milk.utils.HeadlistView;
 import com.inhand.milk.utils.MultiLayerCircle;
+import com.inhand.milk.utils.PinnerListView;
+import com.inhand.milk.utils.PinnerListViewAdapter;
 import com.inhand.milk.utils.ProgressBar;
 import com.inhand.milk.utils.RingWithText;
+import com.inhand.milk.utils.ViewHolder;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2015/5/15.
+ * Created by Administrator on 2015/6/4.
  */
 public class MilkAmountFragment extends TitleFragment {
     private TextView adviseNum,drinkNum;
@@ -36,25 +37,29 @@ public class MilkAmountFragment extends TitleFragment {
     private List<Map<String,Object>> listItems;
     private int[] multiLayerCircleColors,multiLayerCircleWeights;
     private List<ProgressBar> progressBarList;
-    private HeadlistView headlistView;
+    private PinnerListView headlistView;
     private int warningHighColor,warningLowColor,normalColor,progressBgColor;
-    private float[] mTemperature;
+    private DecimalFormat decimalFormat;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       mView = inflater.inflate(R.layout.fragment_milk_amount,null);
-        //setTitleview(getResources().getString(R.string.milk_amount_title),1,null,null);
+        mView = inflater.inflate(R.layout.fragment_milk_amount,null);
+        setTitleview(getResources().getString(R.string.milk_amount_title),1,null,null);
         initVarables();
         initViews();
-        startAnimator();
         return mView;
     }
     private void initVarables(){
+        decimalFormat = new DecimalFormat("###.#");
         warningHighColor = getResources().getColor(R.color.milk_amount_listview_list_warining_high_tempreature_color);
         warningLowColor = getResources().getColor(R.color.milk_amount_listview_list_warining_low_tempreature_color);
         normalColor = getResources().getColor(R.color.milk_amount_listview_list_normal_tempreature_color);
         progressBgColor  = getResources().getColor(R.color.milk_amount_listview_item_progress_bar_background_color);
+        multiLayerCircleColors = getResources().getIntArray(R.array.milk_amount_listview_list_item_circle_colors);
+        multiLayerCircleWeights = getResources().getIntArray(R.array.milk_amount_listview_item_title_circle_weights);
+        progressBarList = new ArrayList<>();
     }
     private void initViews(){
 
@@ -96,109 +101,131 @@ public class MilkAmountFragment extends TitleFragment {
     }
 
     private void initListViews(){
-        headlistView = (HeadlistView)mView.findViewById(R.id.milk_amount_listview);
+        headlistView = (PinnerListView)mView.findViewById(R.id.milk_amount_listview);
         headlistView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         headlistView.setDividerHeight(0);
-        initData();
-        HeadListViewAdpter adpter = new HeadListViewAdpter(getActivity().getApplicationContext(),listItems,
-                R.layout.fragment_milk_amount_listview_item,
-                new String[]{"date","totalNum","onceTime","onceAmount","onceTemperature","mulCircle","progressBar","ringWithText","color"},
-                new int[]{R.id.milk_amount_time_text,R.id.milk_amount_total_num_text,R.id.milk_amount_listview_item_time_text,
-                R.id.milk_amount_listview_item_amount_text,R.id.milk_amount_listview_item_temperature_amount_text,
-                R.id.milk_amount_listview_item_title_circle_container,R.id.milk_amount_listview_item_progress_bar,
-                R.id.milk_amount_listview_item_circle_container,R.id.milk_amount_listview_item_divide_temperature_amount},
+        headlistView.setHead(R.layout.fragment_milk_amount_listview_head);
 
-                "date",R.id.milk_amount_time_text,R.id.milk_amount_listview_item_title,
-                new String[]{"date","totalNum","titlemulCircle"},
-                new int[]{R.id.milk_amount_time_text,R.id.milk_amount_total_num_text,R.id.milk_amount_listview_item_title_circle_container});
-        headlistView.setAdapter(adpter);
-        headlistView.setHeadView(R.layout.fragment_milk_amount_listview_item_title);
-    }
-    private void initData( ){
-        if (listItems ==null)
-            listItems = new ArrayList<Map<String, Object>>();
-        multiLayerCircleColors = getResources().getIntArray(R.array.milk_amount_listview_list_item_circle_colors);
-        multiLayerCircleWeights = getResources().getIntArray(R.array.milk_amount_listview_item_title_circle_weights);
-        MultiLayerCircle titleMultiLayerCircle = new MultiLayerCircle( getActivity().getApplicationContext(),
-                getResources().getDimension(R.dimen.milk_amount_circle_D)/2,multiLayerCircleColors,multiLayerCircleWeights);
-        for(int i=0;i<dataLoadAmount;i++){
-            int count = getTotalDrinkNum();
-            String tempString;
-            float tempNum;
-            int color;
-            if (count == 0)
-                continue;
-            for(int j=0;j<count;j++) {
-                Map<String, Object> map = new HashMap<>();
-                tempString = getOnceTime();
-                if (tempString == null)
-                    continue;
-                initDataTitle(map,i,count,tempString);
-
-                tempNum = getOnceAmount();
-                if(tempNum == -1)
-                    continue;
-                mTemperature = getOnceTemperature();
-                if(mTemperature == null)
-                    continue;
-                initDataTpAmount(map,mTemperature,tempNum);
-                tempNum = getRecord(getAdviseAmount(),tempNum,mTemperature[0],mTemperature[1],getDrinkTime());
-                if(tempNum == -1)
-                    continue;
-               color = selectColor(mTemperature[0],mTemperature[1]);
-               initDataProgressBar(map,tempNum,color);
-               initDataCircleText(map,tempNum,color);
-               initDataMultiLayerCircle(map);
-               map.put("titlemulCircle",titleMultiLayerCircle);
-               map.put("color",color);
-               listItems.add(map);
+        final PinnerListViewAdapter adpter = new PinnerListViewAdapter(this.getActivity());
+        adpter.setConfigureView(new PinnerListViewAdapter.ConfigureView() {
+            @Override
+            public View configureHead(Map<String, Object> map, View convertView,int position) {
+                if (convertView == null){
+                    convertView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_milk_amount_listview_head,null);
+                }
+                TextView textView = ViewHolder.get(convertView,R.id.milk_amount_time_text);
+                textView.setText((String)map.get(HEAD_DATA));
+                textView = ViewHolder.get(convertView,R.id.milk_amount_total_num_text);
+                textView.setText((String)map.get(HEAD_TOTALNUM));
+                LinearLayout linearLayout = ViewHolder.get(convertView,R.id.milk_amount_listview_item_title_circle_container);
+                View child = linearLayout.getChildAt(0);
+                if(child  ==null){
+                    child =  new MultiLayerCircle( getActivity(),
+                            getResources().getDimension(R.dimen.milk_amount_circle_D)/2,multiLayerCircleColors,multiLayerCircleWeights);
+                    linearLayout.addView(child);
+                }
+                return convertView;
             }
+
+            @Override
+            public View configureContent(Map<String, Object> map, View convertView,int position) {
+                ProgressBar progressBar;
+                if(convertView == null){
+                    convertView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_milk_amount_listview_content,null);
+                    LinearLayout linearLayout = ViewHolder.get(convertView, R.id.milk_amount_listview_item_circle_container);
+                    float r = getResources().getDimension(R.dimen.milk_amount_listview_item_circle_D) /2;
+                    RingWithText ring = new RingWithText(getActivity().getApplicationContext(),r);
+                    ring.setTexts(    new float[]{getResources().getDimension(R.dimen.milk_amount_listview_item_circle_up_text_size),
+                                    getResources().getDimension(R.dimen.milk_amount_listview_item_circle_down_text_size)} );
+                    ring.setTextColor(Color.WHITE);
+                    ring.setRingWidth(r);
+                    linearLayout.addView(ring);
+
+                    linearLayout = ViewHolder.get(convertView,R.id.milk_amount_listview_item_progress_bar);
+                    progressBar = new ProgressBar(getActivity().getApplicationContext(),
+                            getResources().getDimension(R.dimen.milk_amount_listview_item_progress_bar_width),
+                            getResources().getDimension(R.dimen.milk_amount_listview_item_progress_bar_height));
+                    progressBar.setBgColor(progressBgColor);
+                    progressBar.setTimeAnimator(timeRing);
+                    linearLayout.addView(progressBar);
+                    progressBarList.add(progressBar);
+                }
+                TextView textView = ViewHolder.get(convertView,R.id.milk_amount_listview_item_time_text);
+                textView.setText((String)map.get(CONTETN_TIME));
+                textView = ViewHolder.get(convertView,R.id.milk_amount_listview_item_amount_text);
+                textView.setText((String)map.get(CONTENT_AMOUNT));
+                textView = ViewHolder.get(convertView,R.id.milk_amount_listview_item_temperature_amount_text);
+                textView.setText((String)map.get(CONTENT_TP));
+                LinearLayout linearLayout = ViewHolder.get(convertView, R.id.milk_amount_listview_item_circle_container);
+                ((RingWithText)linearLayout.getChildAt(0)).setTexts(new String[]{   String.valueOf( (int)(float)map.get(CONTENT_SCORE)), "分"} );
+                ((RingWithText)linearLayout.getChildAt(0)).setRingBgColor((int) map.get(CONTENT_COLOR));
+
+                linearLayout = ViewHolder.get(convertView,R.id.milk_amount_listview_item_progress_bar);
+                progressBar = (ProgressBar)linearLayout.getChildAt(0);
+                progressBar.setColor((int) map.get(CONTENT_COLOR));
+                progressBar.setMaxNum((float)map.get(CONTENT_SCORE));
+
+
+
+
+                linearLayout = ViewHolder.get(convertView,R.id.milk_amount_listview_item_divide_temperature_amount);
+                linearLayout.setBackgroundColor((int)map.get(CONTENT_COLOR));
+
+                linearLayout = ViewHolder.get(convertView,R.id.milk_amount_listview_item_divider);
+                if(adpter.hasHead(position+1)){
+                    linearLayout.setVisibility(View.INVISIBLE);
+                }
+                else
+                    linearLayout.setVisibility(View.VISIBLE);
+                return convertView;
+            }
+        });
+        initMyData(adpter);
+        headlistView.setAdapter(adpter);
+
+    }
+    private void initMyData(PinnerListViewAdapter adapter){
+        for(int i=0;i<dataLoadAmount;i++) {
+            for(int j=0;j<8;j++)
+            adapter.addMap(getHeadData(i),getContentData(),i*8+j);
         }
     }
-    private void initDataTitle(Map<String,Object> map,int days,int count ,String tempString){
-        map.put("date", getCalenderBefore(days));
-        map.put("totalNum", getResources().getString(R.string.milk_amount_drink_total_num_doc) + String.valueOf(count) + "次");
-        map.put("onceTime", tempString);
+    private static final String  HEAD_DATA = "data",HEAD_TOTALNUM = "totalNum";
+    private Map<String,Object> getHeadData(int days){
+        Map<String,Object> map  = new HashMap<>();
+        map.put(HEAD_DATA, getCalenderBefore(days));
+        map.put(HEAD_TOTALNUM, getResources().getString(R.string.milk_amount_drink_total_num_doc) +
+                String.valueOf(getTotalDrinkNum()) + "次");
+        return map;
     }
-    private void initDataTpAmount(Map<String,Object>map,float[] tp,float amount){
-        float temperature ;
-        temperature = tp[1];
+    private static final String  CONTETN_TIME = "onceTime",CONTENT_TP = "oncetemperate",CONTENT_AMOUNT = "onceAmount",
+           CONTENT_COLOR ="color",CONTENT_SCORE="score";
+    private Map<String,Object> getContentData(){
+        Map<String,Object> map  = new HashMap<>();
+        int color;
+        float score,amount;
+        float[] mTemperature;
+        amount = getOnceAmount();
+        mTemperature = getOnceTemperature();
+        map.put(CONTETN_TIME, getOnceTime());
         DecimalFormat format = new DecimalFormat("###");
-        map.put("onceTemperature",String.valueOf(format.format(temperature))+"ml");
-        map.put("onceAmount",String.valueOf(amount)+"°C");
+        map.put(CONTENT_TP,format.format(mTemperature[1])+"°C");
+        map.put(CONTENT_AMOUNT,format.format( amount) +"ml");
+
+        score = getRecord(getAdviseAmount(),amount,mTemperature[0],mTemperature[1],getDrinkTime());
+        color = selectColor(mTemperature[0],mTemperature[1]);
+        map.put(CONTENT_COLOR,color);
+        map.put(CONTENT_SCORE, score);
+        return map;
     }
-    private void initDataMultiLayerCircle(Map<String,Object> map){
-        if (multiLayerCircleColors == null)
-            multiLayerCircleColors = getResources().getIntArray(R.array.milk_amount_listview_list_item_circle_colors);
-        if (multiLayerCircleWeights == null)
-             multiLayerCircleWeights = getResources().getIntArray(R.array.milk_amount_listview_item_title_circle_weights);
-        MultiLayerCircle multiLayerCircle = new MultiLayerCircle( getActivity().getApplicationContext(),
-                getResources().getDimension(R.dimen.milk_amount_circle_D)/2,multiLayerCircleColors,multiLayerCircleWeights);
-        map.put("mulCircle",multiLayerCircle);
-    }
-    private void initDataProgressBar(Map<String,Object> map,float tempNum,int color){
-        if (progressBarList == null)
-            progressBarList = new ArrayList<>();
-        ProgressBar progressBar = new ProgressBar(getActivity().getApplicationContext(),
-                getResources().getDimension(R.dimen.milk_amount_listview_item_progress_bar_width),
-                getResources().getDimension(R.dimen.milk_amount_listview_item_progress_bar_height));
-        progressBar.setColor(color);
-        progressBar.setBgColor(progressBgColor);
-        progressBar.setMaxNum(tempNum);
-        progressBar.setTimeAnimator(timeRing);
-        map.put("progressBar",progressBar);
-        progressBarList.add(progressBar);
-    }
-    private void initDataCircleText(Map<String,Object> map,float tempNum,int color){
-        float r = getResources().getDimension(R.dimen.milk_amount_listview_item_circle_D) /2;
-        RingWithText ring = new RingWithText(getActivity().getApplicationContext(),r);
-        ring.setRingBgColor(color);
-        ring.setPaintWidth(r);
-        DecimalFormat format = new DecimalFormat("###");
-        ring.setTexts(new String[]{String.valueOf(format.format(tempNum)),"分"},
-                new float[]{getResources().getDimension(R.dimen.milk_amount_listview_item_circle_up_text_size),
-                        getResources().getDimension(R.dimen.milk_amount_listview_item_circle_down_text_size)});
-        map.put("ringWithText",ring);
+
+
+
+
+    @Override
+    public void refresh() {
+        startAnimator();
+
     }
 
     private void startAnimator(){
@@ -209,18 +236,18 @@ public class MilkAmountFragment extends TitleFragment {
                 startProgressBar();
                 ringWithText.startRing();
             }
-        },300);
+        },200);
 
     }
     private void startProgressBar(){
-        int count = headlistView.getChildCount();
-        Log.i("listview child count",String.valueOf(count));
+        int count = progressBarList.size();
+
         if (count == 0)
             return;
         ProgressBar progressBar ;
         for(int i = 0;i<count;i++){
-                progressBar = progressBarList.get(i);
-                progressBar.startAnimator();
+            progressBar = progressBarList.get(i);
+            progressBar.startAnimator();
         }
     }
     private String getCalenderBefore(int days){
@@ -251,12 +278,13 @@ public class MilkAmountFragment extends TitleFragment {
         return  warningLowColor;
     }
     private String getOneDayDrinkAmount(){
+
         drinkAmount = getDrinkAmount();
-        return  String.valueOf(drinkAmount)+"ml";
+        return  decimalFormat.format( drinkAmount)+"ml";
     }
     private String getOneDayAdviseAmount(){
         adviseAmount = getAdviseAmount();
-        return String.valueOf(adviseAmount)+"ml";
+        return decimalFormat.format( adviseAmount)+"ml";
     }
     private String getOnceTime(){
         return "08:36";
@@ -296,7 +324,7 @@ public class MilkAmountFragment extends TitleFragment {
         else
             ratio = advise /amount;
         sum += AMOUNTSCORE * ratio;
-        Log.i("amount " ,String.valueOf(sum));
+        //Log.i("amount " ,String.valueOf(sum));
         ratio = 0;
         if (temperatureHigh > TEMPREATUREHIGH)
             ratio += (temperatureHigh - TEMPREATUREHIGH)/TEMPREATUREHIGH;
@@ -304,15 +332,14 @@ public class MilkAmountFragment extends TitleFragment {
             ratio += (TEMPREATURELOW  -temperatureLow)/TEMPREATURELOW;
         ratio = ratio> 1?1:ratio;
         sum += TEMPERATURESCORE *(1-ratio);
-        Log.i("amount tempreature " ,String.valueOf(sum));
+        //Log.i("amount tempreature " ,String.valueOf(sum));
         if (STANDARTIME > time)
             ratio = time/STANDARTIME;
         else
             ratio = STANDARTIME/time;
         sum += TIMESCORE*ratio;
-        Log.i("amount tempreature time" ,String.valueOf(sum));
+        //Log.i("amount tempreature time" ,String.valueOf(sum));
         return sum;
     }
-
 
 }

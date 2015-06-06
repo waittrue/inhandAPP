@@ -168,8 +168,8 @@ public class ChooseMilk extends FirstLaunchFragment {
         });
     }
     private void save(){
-        enterNextActivity();
-        /*
+       // enterNextActivity();
+
         baby.save(new SaveCallback() {
             @Override
             public void done(AVException e) {
@@ -187,6 +187,6 @@ public class ChooseMilk extends FirstLaunchFragment {
                 }
             }
         });
-        */
+
     }
 }

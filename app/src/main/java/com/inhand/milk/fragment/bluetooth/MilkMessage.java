@@ -3,7 +3,7 @@ package com.inhand.milk.fragment.bluetooth;
 /**
  * Created by Administrator on 2015/5/30.
  */
-public class MilkMessage extends  BaseBluetoothMessages{
+public class MilkMessage extends BaseSendMessages {
     private byte[] bytes;
     private static final int MAXLEN = 10,AdviseMaxFlags = 0,AdviseMinFlags =1,MilkDensityFlags =2,UerserTimeFlags =3,
                             AllFlags = 0x0f;

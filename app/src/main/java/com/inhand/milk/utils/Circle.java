@@ -1,11 +1,13 @@
 package com.inhand.milk.utils;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+import com.inhand.milk.R;
 
 public class Circle extends View {
 
@@ -16,8 +18,12 @@ public class Circle extends View {
 	}
 	public Circle(Context context,AttributeSet attri){
 		super(context,attri);
-		
-	}
+        TypedArray a;
+        a = context.obtainStyledAttributes(attri,R.styleable.MyCircle);
+        r = a.getDimensionPixelOffset(R.styleable.MyCircle_r,0);
+        mColor = a.getColor(R.styleable.MyCircle_CircleColor,0x000000);
+
+    }
 	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

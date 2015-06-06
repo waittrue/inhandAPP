@@ -3,13 +3,12 @@ package com.inhand.milk.activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
-import com.inhand.milk.fragment.milk_amount.MilkAmountFragment;
+import com.inhand.milk.fragment.health.last_drink.LastDrink;
 
 /**
- * Created by Administrator on 2015/5/7.
+ * Created by Administrator on 2015/6/3.
  */
-public class HealthPromptActivity extends SubActivity {
-
+public class HealthDrinkLastActivity extends SubActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -19,10 +18,7 @@ public class HealthPromptActivity extends SubActivity {
     @Override
     protected Fragment initFragment() {
         // TODO Auto-generated method stub
-       // Fragment mFragment = new HealthPromptFragment();
-        Fragment mFragment = new MilkAmountFragment();
-        //Fragment mFragment = new bluetoothFragment();
-        return mFragment;
+        Fragment fragment = new LastDrink();
+        return  fragment;
     }
 }
-

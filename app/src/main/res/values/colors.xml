@@ -118,24 +118,32 @@
     </array>
 
     <!--milk_amount -->
-    <color name="milk_amount_line_color">#000000</color>
-    <color name="milk_amount_ring_bg_color">#ffffff</color>
-    <color name="milk_amount_ring_color">#000000</color>
-    <color name="milk_amount_listview_item_title_bg_color">#c8c8c8</color>
+    <color name="milk_amount_title_divider_color">#661ae86f</color>
+    <color name="milk_amount_advise_text_color">#ffffff</color>
+    <color name="milk_amount_line_color">#dddddd</color>
+    <color name="milk_amount_ring_bg_color">#24e1ba</color>
+    <color name="milk_amount_ring_color">#ffffff</color>
+    <color name="milk_amount_listview_item_title_bg_color">#f6f6f6</color>
     <color name="milk_amount_ring_text_color">#ffffff</color>
-    <color name="milk_amount_time_text_color">#000000</color>
-    <color name="milk_amount_total_num_text_color">#000000</color>
-    <color name="milk_amount_listview_item_time_text_color">#000000</color>
-    <color name="milk_amount_listview_item_progress_bar_background_color">#c8c800</color>
-    <color name="milk_amount_listview_list_tempereture_amount_text_color">#000000</color>
-    <color name="milk_amount_listview_list_divider_color">#000000</color>
-    <color name="milk_amount_listview_list_warining_high_tempreature_color">#ff0000</color>
-    <color name="milk_amount_listview_list_warining_low_tempreature_color">#00ff00</color>
-    <color name="milk_amount_listview_list_normal_tempreature_color">#0000ff</color>
+    <color name="milk_amount_time_text_color">#16cfa9</color>
+    <color name="milk_amount_total_num_text_color">#999999</color>
+    <color name="milk_amount_listview_item_time_text_color">#bbbbbb</color>
+    <color name="milk_amount_listview_item_progress_bar_background_color">#eeeeee</color>
+    <color name="milk_amount_listview_list_tempereture_amount_text_color">#777777</color>
+    <color name="milk_amount_listview_list_divider_color">#bbbbbb</color>
+    <color name="milk_amount_listview_list_warining_high_tempreature_color">#ff6600</color>
+    <color name="milk_amount_listview_list_warining_low_tempreature_color">#4dd3f5</color>
+    <color name="milk_amount_listview_list_normal_tempreature_color">#88cc44</color>
     <array name="milk_amount_listview_list_item_circle_colors">
-        <item>#3300ff</item>
-        <item>#443322</item>
-        <item>#33c8ff</item>
+        <item>#16cfa9</item>
+        <item>#f6f6f6</item>
+        <item>#16cfa9</item>
     </array>
+
+    <!--health_drink_last -->
+    <color name="health_drink_last_warning_color">#fd7272</color>
+    <color name="health_drink_last_normal_color">#88cc44</color>
+    <color name="health_drink_last_down_text_color">#9e9e9e</color>
+
 
 </resources>

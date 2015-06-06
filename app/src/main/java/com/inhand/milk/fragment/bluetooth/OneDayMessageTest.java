@@ -1,15 +1,16 @@
 package com.inhand.milk.fragment.bluetooth;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
  * Created by Administrator on 2015/5/30.
  */
-public class OneDayMessageTest extends BaseBluetoothMessages {
+public class OneDayMessageTest extends BaseSendMessages {
+    private static final String TAG = "sendMessage";
     private byte[] bytes;
-    private static final int MAXLEN = 10,AdviseMaxFlags = 0,AdviseMinFlags =1,MilkDensityFlags =2,UerserTimeFlags =3,
-            AllFlags = 0x0f;
+    private static final int MAXLEN = 10;
     private int flags =0;
     Context cnt;
     OneDayMessageTest(Context cnt){
@@ -53,6 +54,7 @@ public class OneDayMessageTest extends BaseBluetoothMessages {
     private float getOneFloat(){
         float temp =(float)Math.random()*255;
         Toast.makeText(cnt,String.valueOf(temp),1000).show();
+        Log.i(TAG,String.valueOf(temp));
         return temp;
     }
 }

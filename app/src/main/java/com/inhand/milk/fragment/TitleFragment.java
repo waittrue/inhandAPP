@@ -5,16 +5,21 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.inhand.milk.R;
 
 public class TitleFragment extends Fragment{
 	protected View mView;
-	
+	private static LinearLayout.LayoutParams lp =new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
 	public void refresh(){
 		
 	}
+    protected void setTitleview(String text,int type){
+        setTitleview(text,type,null,null);
+    }
 	protected void  setTitleview(String text , int type,Drawable rightIcon,View.OnClickListener righListenner){
 		
 		switch (type) {
@@ -28,7 +33,7 @@ public class TitleFragment extends Fragment{
 			 TemperatureMilkTitle title2 =  new TemperatureMilkTitle(text);
              title2.setrightIcon(righListenner,rightIcon);
 			 LinearLayout layout2 = (LinearLayout)mView.findViewById(R.id.title);
-			 layout2.addView(title2.getView(this.getActivity()));
+			 layout2.addView(title2.getView(this.getActivity()),lp);
 			 break;
 		case 2:
 			 BackTitle title3 = new BackTitle(text);

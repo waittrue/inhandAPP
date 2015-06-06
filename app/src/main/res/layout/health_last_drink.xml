@@ -12,7 +12,7 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/health_first_drink_listview"
+        android:id="@+id/health_last_drink_listview"
         android:scrollbars="none"
-       />
+        android:headerDividersEnabled="false" />
 </LinearLayout>

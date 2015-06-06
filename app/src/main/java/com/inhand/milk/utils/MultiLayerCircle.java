@@ -4,13 +4,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-import android.widget.SimpleAdapter;
 
 /**
  * Created by Administrator on 2015/5/17.
  */
 public class MultiLayerCircle extends View {
+    private static final String TAG ="MultiLayerCircle";
     private float mR=0;
     private int[] mColors;
     private int[] mWeights;
@@ -42,6 +43,7 @@ public class MultiLayerCircle extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+       // Log.i(TAG,"ondraw");
         Paint paint =new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
@@ -55,6 +57,8 @@ public class MultiLayerCircle extends View {
             paint.setColor(mColors[i]);
             tempR = mR*mWeights[i]/weight;
             paint.setStrokeWidth(tempR);
+          //  Log.i(TAG,"color"+String.valueOf(mColors[i]));
+         //   Log.i(TAG,String.valueOf(mR)+" "+ String.valueOf(r + tempR/2));
             canvas.drawCircle(mR,mR,r+ tempR/2,paint);
             r += mR*mWeights[i]/weight;
         }
@@ -63,6 +67,6 @@ public class MultiLayerCircle extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension((int)( 2*mR+1),(int)(2*mR+1));
+        setMeasuredDimension((int)( 2*mR),(int)(2*mR));
     }
 }

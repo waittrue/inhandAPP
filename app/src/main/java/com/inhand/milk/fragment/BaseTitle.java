@@ -29,10 +29,11 @@ public class BaseTitle {
 		leftIcon.setImageDrawable(iconLeft);
 		
 		((TextView)view.findViewById(R.id.title_text) ).setText(title);
-
-        ImageView rightIcon = (ImageView) view.findViewById(R.id.title_right_icon);
-        rightIcon.setOnClickListener(listenerRight);
-        rightIcon.setImageDrawable(iconright);
+        if(listenerRight != null && iconright !=null) {
+            ImageView rightIcon = (ImageView) view.findViewById(R.id.title_right_icon);
+            rightIcon.setOnClickListener(listenerRight);
+            rightIcon.setImageDrawable(iconright);
+        }
 
 		return view;
 	}
