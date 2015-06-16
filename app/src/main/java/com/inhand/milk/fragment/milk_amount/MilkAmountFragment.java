@@ -34,7 +34,6 @@ public class MilkAmountFragment extends TitleFragment {
     private float drinkAmount, adviseAmount;
     private RingWithText ringWithText;
     private final static int timeRing = 200, dataLoadAmount = 4;
-    private List<Map<String, Object>> listItems;
     private int[] multiLayerCircleColors, multiLayerCircleWeights;
     private List<ProgressBar> progressBarList;
     private PinnerListView headlistView;
@@ -45,7 +44,7 @@ public class MilkAmountFragment extends TitleFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_milk_amount, null);
+        mView = inflater.inflate(R.layout.fragment_milk_amount, container, false);
         setTitleview(getResources().getString(R.string.milk_amount_title), 1, null, null);
         initVarables();
         initViews();

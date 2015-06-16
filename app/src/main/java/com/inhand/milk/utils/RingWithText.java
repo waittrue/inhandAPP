@@ -18,6 +18,7 @@ import com.inhand.milk.R;
 
 
 public class RingWithText extends View {
+    private static final String TAG = "RingWithText";
     private float mR,paintWidth,circleR;
     private int ringBgColor = 0,ringColor=0,textColor= Color.BLACK;
     private float maxSweepAngle=0,sweepAngle=0;
@@ -28,17 +29,28 @@ public class RingWithText extends View {
     private updateListener listener;
     private android.os.Handler handler;
 
+    /*
+    *这里因为这个view的大小是2*r的int，而我们画的过程中是一2*r来画的，所以这里会出现画的地方大于了实际地方，
+    * 不然容易损失1px，这个眼睛是看的出来的。
+    *在这里我认为即使上层给我一个的float r，我应该想的不大于这个r的最大圆来画,。
+    */
     public RingWithText(Context context,float r) {
         super(context);
-        mR = r;
+
+        mR = ((int) (r * 2)) / 2;
         paintWidth = mR/15;
         circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
     }
+
+    public float getR() {
+        return mR;
+    }
+
     public RingWithText(Context context) {
         super(context);
         mR = 0;
-        paintWidth = mR/15;
-        circleR = mR - paintWidth/2 >0? mR-paintWidth/2:0;
+        initVariblesByR(mR);
+
     }
     public RingWithText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -50,7 +62,8 @@ public class RingWithText extends View {
        attrsInit(context,attrs);
     }
     private void attrsInit(Context context,AttributeSet attrs){
-        TypedArray a = context.obtainStyledAttributes(attrs,
+
+        final TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.RingWithText);
         mR = a.getDimension(R.styleable.RingWithText_R,0);
         paintWidth = a.getDimension(R.styleable.RingWithText_RingWidth,0);
@@ -70,6 +83,11 @@ public class RingWithText extends View {
         if(textSize2 != 0) textSizes[count++] = textSize2;
         if(textSize3 != 0) textSizes[count++] = textSize3;
 
+    }
+
+    private void initVariblesByR(float r) {
+        paintWidth = r / 15;
+        circleR = r - paintWidth / 2 > 0 ? r - paintWidth / 2 : 0;
     }
     public RingWithText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -160,7 +178,8 @@ public class RingWithText extends View {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStrokeWidth(paintWidth);
-
+        if (texts == null)
+            return;
         for(i=0;i<texts.length;i++){
             height+= textSizes[i];
         }
@@ -183,7 +202,14 @@ public class RingWithText extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension((int)(mR*2),(int)(mR*2));
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (mR != 0)
+            setMeasuredDimension((int) (mR * 2), (int) (mR * 2));
+        else {
+            mR = Math.min(getMeasuredHeight(), getMeasuredWidth()) / 2;
+            initVariblesByR(mR);
+            setMeasuredDimension((int) (mR * 2), (int) (mR * 2));
+        }
     }
 
     public void startRing(){

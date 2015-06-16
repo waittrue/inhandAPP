@@ -321,5 +321,16 @@
     <dimen name="weight_fragment_tab_height">40dp</dimen>
     <dimen name="weight_fragment_excle_bottom_height">40dp</dimen>
     <dimen name="weight_fragment_excle_left_line_margin">2dp</dimen>
+    <dimen name="weight_fragment_excle_down_divider_height">10dp</dimen>
+    <dimen name="weight_fragment_left_up_text_size">14dp</dimen>
+    <dimen name="weight_fragment_left_down_text_size">10dp</dimen>
+    <dimen name="weight_fragment_right_up_text_size">14dp</dimen>
+    <dimen name="weight_fragment_right_down_text_size">10dp</dimen>
+    <dimen name="weight_fragment_text_space_size">2dp</dimen>
+    <dimen name="weight_fragment_bottom_text_size">10dp</dimen>
+    <dimen name="weight_fragment_adder_text_size">8dp</dimen>
+    <dimen name="weight_fragment_adder_width">150dp</dimen>
+    <dimen name="weight_fragment_adder_height">40dp</dimen>
+
 
 </resources>

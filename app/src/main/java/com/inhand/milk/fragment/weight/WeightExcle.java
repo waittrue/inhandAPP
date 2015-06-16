@@ -53,10 +53,10 @@ public class WeightExcle extends View {
     }
 
     private void init() {
+        bottomText = this.getResources().getStringArray(R.array.weight_excle_bottom_texts);
         leftTexts = this.getResources().getStringArray(R.array.weight_excle_left_texts);
         bottomHeight = this.getResources().getDimension(R.dimen.weight_fragment_excle_bottom_height);
         leftLineMargin = this.getResources().getDimension(R.dimen.weight_fragment_excle_left_line_margin);
-        bottomText = this.getResources().getStringArray(R.array.weight_excle_bottom_texts);
         bottomTextSize = bottomHeight / 3;
         bottomTextMargin = bottomHeight / 8;
         this.setBackgroundColor(Color.BLUE);
@@ -99,6 +99,12 @@ public class WeightExcle extends View {
         }
         return 0;
 
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        initVaribles();
     }
 
     private void initVaribles() {
@@ -204,7 +210,6 @@ public class WeightExcle extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        initVaribles();
         if (maxValue == MINVALUE || minValue == MAXVALUE)
             return;
         drawStanderArea(canvas);

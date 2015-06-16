@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -16,10 +17,18 @@ public class ProgressBar extends View {
     private int timeAnimator;
     private float maxNum,currentNum = 0;
     private android.os.Handler handler;
+    private boolean attchTo = false;
+
+    public ProgressBar(Context context) {
+        super(context);
+        width = height = 0;
+        attchTo = true;
+    }
     public ProgressBar(Context context,float width,float height) {
         super(context);
         this.width = width;
         this.height = height;
+        attchTo = false;
     }
     public ProgressBar(Context context,float width,float height,int bgColor,int color) {
         super(context);
@@ -27,18 +36,22 @@ public class ProgressBar extends View {
         this.height = height;
         this.bgColor = bgColor;
         this.color = color;
+        attchTo = false;
     }
 
     public ProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
+        attchTo = true;
     }
 
     public ProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        attchTo = true;
     }
 
     public ProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        attchTo = true;
     }
     public void setBgColor(int color){
         this.bgColor = color;
@@ -64,7 +77,7 @@ public class ProgressBar extends View {
         currentNum = (float)this.maxNum;
     }
 
-    private void drawLine(Canvas canvas,int color,float len,boolean bg){
+    private void drawLine(Canvas canvas, int color, float len) {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStrokeWidth(1);
@@ -72,10 +85,9 @@ public class ProgressBar extends View {
         if(len < height)
             return;
         RectF rectF;
-        if(bg == true)
-            rectF = new RectF(1,1,height,height);
-        else
-            rectF = new RectF(0,0,height,height);
+
+
+        rectF = new RectF(0, 0, height, height);
         canvas.drawArc(rectF,90,180,true,paint);
         canvas.drawRect(height/2-1,0,len-height/2+1,height,paint);
         rectF = new RectF(len-height,0,len,height);
@@ -84,14 +96,19 @@ public class ProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawLine(canvas, bgColor, width, true);
-        drawLine(canvas, color,  currentNum / 100 * width, false);
+        drawLine(canvas, bgColor, width);
+        drawLine(canvas, color, currentNum / 100 * width);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension((int)(width),(int)(height));
+        if (attchTo) {
+            Log.i("progress", "super.onmeasure");
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            width = getMeasuredWidth();
+            height = getMeasuredHeight();
+        } else
+            setMeasuredDimension((int) (width), (int) (height));
     }
 
     public void startAnimator(){

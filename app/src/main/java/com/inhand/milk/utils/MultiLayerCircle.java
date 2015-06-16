@@ -19,9 +19,14 @@ public class MultiLayerCircle extends View {
         super(context);
     }
 
+    /*
+     *这里因为这个view的大小是2*r的int，而我们画的过程中是一2*r来画的，所以这里会出现画的地方大于了实际地方，
+     * 不然容易损失1px，这个眼睛是看的出来的。
+     *在这里我认为即使上层给我一个的float r，我应该想的不大于这个r的最大圆来画,。
+     */
     public MultiLayerCircle(Context context, float r, int[] colors, int[] weights) {
         super(context);
-        this.mR = (int) r;
+        this.mR = ((int) (r * 2)) / 2;
         mColors = colors;
         mWeights = weights;
     }
@@ -39,7 +44,7 @@ public class MultiLayerCircle extends View {
     }
 
     public void setR(float r) {
-        mR = r;
+        this.mR = ((int) (r * 2)) / 2;
     }
 
     @Override
@@ -51,7 +56,7 @@ public class MultiLayerCircle extends View {
         int count = mColors.length < mWeights.length ? mColors.length : mWeights.length;
         int weight = 0;
         float r = 0, tempR;
-        float centerXY = getMeasuredHeight() / 2;
+        // float centerXY = getMeasuredHeight() / 2;
         for (int i = 0; i < count; i++) {
             weight += mWeights[i];
         }
@@ -59,7 +64,7 @@ public class MultiLayerCircle extends View {
             paint.setColor(mColors[i]);
             tempR = mR * mWeights[i] / weight;
             paint.setStrokeWidth(tempR);
-            canvas.drawCircle(centerXY, centerXY, r + tempR / 2, paint);
+            canvas.drawCircle(mR, mR, r + tempR / 2, paint);
             r += tempR;
         }
     }

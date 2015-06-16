@@ -145,5 +145,13 @@
     <color name="health_drink_last_normal_color">#88cc44</color>
     <color name="health_drink_last_down_text_color">#9e9e9e</color>
 
+    <!--weight_fragment -->
+    <color name="weight_fragment_ring_text_color">#88cc44</color>
+    <color name="weight_fragment_ring_bg_color">#00ee00</color>
+    <color name="weight_fragment_ring_inner_bg_color">#ffffff</color>
+    <color name="weight_fragment_left_text_color">#00ff00</color>
+    <color name="weight_fragment_right_text_color">#0000ff</color>
+    <color name="weight_fragment_bottom_text_color">#0000ff</color>
+    <color name="weight_fragment_adder_text_color">#0000ff</color>
 
 </resources>
