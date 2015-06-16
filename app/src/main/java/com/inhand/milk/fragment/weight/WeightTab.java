@@ -30,6 +30,11 @@ public class WeightTab extends ObservableHorizonScrollView {
     private Handler handler ;
     private Runnable runnable;
     private static final float Alpha_Center = 1f,Alpha_Minor = 0.5f, Alpha_Most =0.1f;
+    private StopLisetner stopLisetner;
+
+    public interface StopLisetner {
+        void stopLisetner(int position);
+    }
     public WeightTab(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initVaribles();
@@ -43,6 +48,10 @@ public class WeightTab extends ObservableHorizonScrollView {
     public WeightTab(Context context) {
         super(context);
         initVaribles();
+    }
+
+    public void setStopLisetner(StopLisetner stopLisetner) {
+        this.stopLisetner = stopLisetner;
     }
     private void initVaribles(){
         WindowManager wm = (WindowManager) getContext()
@@ -75,11 +84,14 @@ public class WeightTab extends ObservableHorizonScrollView {
 
             }
         };
+
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP)
-                handler.post(runnable);
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    handler.post(runnable);
+                }
                 return false;
             }
         });
@@ -125,6 +137,8 @@ public class WeightTab extends ObservableHorizonScrollView {
         int position = localToPostion(x);
         int tempX = postionToLocal(position);
         smoothScrollTo(tempX, getScrollY());
+        if (stopLisetner != null)
+            stopLisetner.stopLisetner(position);
     }
 
     @Override

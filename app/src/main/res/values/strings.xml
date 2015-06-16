@@ -172,4 +172,17 @@
     <string name="health_last_drink_end_temperature_more_doc">偏高：注意注意注意</string>
     <string name="health_last_drink_end_temperature_suit_doc">合适：很好很好很好</string>
 
+    <!-- weight fragment-->
+    <array name="weight_excle_left_texts">
+        <item>偏重区</item>
+        <item>标准区</item>
+        <item>偏轻区</item>
+    </array>
+    <array name="weight_excle_bottom_texts">
+        <item>第一周</item>
+        <item>第二周</item>
+        <item>第三周</item>
+        <item>第四周</item>
+    </array>
+
 </resources>

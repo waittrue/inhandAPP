@@ -4,23 +4,24 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
  * Created by Administrator on 2015/5/17.
  */
 public class MultiLayerCircle extends View {
-    private static final String TAG ="MultiLayerCircle";
-    private float mR=0;
+    private static final String TAG = "MultiLayerCircle";
+    private float mR = 0;
     private int[] mColors;
     private int[] mWeights;
+
     public MultiLayerCircle(Context context) {
         super(context);
     }
-    public MultiLayerCircle(Context context,float r,int[] colors,int[] weights) {
+
+    public MultiLayerCircle(Context context, float r, int[] colors, int[] weights) {
         super(context);
-        this.mR = r;
+        this.mR = (int) r;
         mColors = colors;
         mWeights = weights;
     }
@@ -36,37 +37,36 @@ public class MultiLayerCircle extends View {
     public MultiLayerCircle(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
-    public void setR(float r){
+
+    public void setR(float r) {
         mR = r;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-       // Log.i(TAG,"ondraw");
-        Paint paint =new Paint();
+        Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
-        int count = mColors.length < mWeights.length?mColors.length:mWeights.length;
+        int count = mColors.length < mWeights.length ? mColors.length : mWeights.length;
         int weight = 0;
-        float r=0,tempR;
-        for(int i =0;i<count;i++){
-               weight+= mWeights[i];
+        float r = 0, tempR;
+        float centerXY = getMeasuredHeight() / 2;
+        for (int i = 0; i < count; i++) {
+            weight += mWeights[i];
         }
-        for(int i=0;i<count;i++){
+        for (int i = 0; i < count; i++) {
             paint.setColor(mColors[i]);
-            tempR = mR*mWeights[i]/weight;
+            tempR = mR * mWeights[i] / weight;
             paint.setStrokeWidth(tempR);
-          //  Log.i(TAG,"color"+String.valueOf(mColors[i]));
-         //   Log.i(TAG,String.valueOf(mR)+" "+ String.valueOf(r + tempR/2));
-            canvas.drawCircle(mR,mR,r+ tempR/2,paint);
-            r += mR*mWeights[i]/weight;
+            canvas.drawCircle(centerXY, centerXY, r + tempR / 2, paint);
+            r += tempR;
         }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension((int)( 2*mR),(int)(2*mR));
+        setMeasuredDimension((int) (2 * mR), (int) (2 * mR));
     }
 }
