@@ -59,7 +59,6 @@ public class WeightExcle extends View {
         leftLineMargin = this.getResources().getDimension(R.dimen.weight_fragment_excle_left_line_margin);
         bottomTextSize = bottomHeight / 3;
         bottomTextMargin = bottomHeight / 8;
-        this.setBackgroundColor(Color.BLUE);
         setLisetner();
     }
 

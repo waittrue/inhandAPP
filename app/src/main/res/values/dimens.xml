@@ -98,17 +98,17 @@
     <dimen name="health_item_dividing_line_height">1px</dimen>
     <dimen name="health_item_dividing_line_margin_left">65dp</dimen>
     <string-array name="health_item_name">
-        <item >宝宝信息</item>
-        <item >营养摄入</item>
-        <item >数据统计</item>
-        <item >健康提示</item>
+        <item>宝宝信息</item>
+        <item>营养摄入</item>
+        <item>数据统计</item>
+        <item>健康提示</item>
     </string-array>
 
     <string-array name="health_item_doc">
-        <item >生日：2014-08-08/性别：女</item>
-        <item >蛋白质：14g/钙：12g</item>
-        <item >饮奶温度，饮奶量</item>
-        <item >我们错过了就没有回头</item>
+        <item>生日：2014-08-08/性别：女</item>
+        <item>蛋白质：14g/钙：12g</item>
+        <item>饮奶温度，饮奶量</item>
+        <item>我们错过了就没有回头</item>
     </string-array>
 
 
@@ -309,7 +309,7 @@
     <dimen name="health_last_drink_item_text_total_width">200dp</dimen>
     <dimen name="health_last_drink_item_text_total_height">100dp</dimen>
     <dimen name="last_drink_item_total_height">150dp</dimen>
-    <dimen name="last_drink_item_circle_r" >20dp</dimen>
+    <dimen name="last_drink_item_circle_r">20dp</dimen>
     <dimen name="last_drink_item_up_doc_text_size">40dp</dimen>
     <dimen name="health_last_drink_item_down_doc_text_size">10dp</dimen>
     <dimen name="health_last_drink_item_ring_r">50dp</dimen>
@@ -331,6 +331,19 @@
     <dimen name="weight_fragment_adder_text_size">8dp</dimen>
     <dimen name="weight_fragment_adder_width">150dp</dimen>
     <dimen name="weight_fragment_adder_height">40dp</dimen>
+    <dimen name="weight_fragment_adder_title_height">30dp</dimen>
+    <dimen name="weight_fragment_adder_title_text_size">10dp</dimen>
+    <dimen name="weight_fragment_adder_title_line_height">1dp</dimen>
+    <dimen name="weight_fragment_adder_bottome_icon_width">100dp</dimen>
+    <dimen name="weight_fragment_adder_doc_text_size">17dp</dimen>
+    <dimen name="weight_fragment_adder_doc_text_width">130dp</dimen>
+    <dimen name="weight_fragment_adder_num_text_size">30dp</dimen>
+    <dimen name="weight_fragment_adder_num_text_width">100dp</dimen>
+    <dimen name="weight_fragment_adder_ruler_jt_height">20dp</dimen>
+    <dimen name="weight_fragment_adder_ruler_container_margin_top">10dp</dimen>
+    <dimen name="weight_fragment_adder_ruler_margin_left_right">10dp</dimen>
+    <dimen name="weight_fragment_adder_ruler_margin_top">10dp</dimen>
+    <dimen name="weight_fragment_adder_ruler_container_width">250dp</dimen>
 
 
 </resources>

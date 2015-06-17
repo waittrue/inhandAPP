@@ -173,6 +173,7 @@
     <string name="health_last_drink_end_temperature_suit_doc">合适：很好很好很好</string>
 
     <!-- weight fragment-->
+    <string name="weight_fragment_title">发育评估</string>
     <array name="weight_excle_left_texts">
         <item>偏重区</item>
         <item>标准区</item>
@@ -193,4 +194,5 @@
     <string name="weight_left_down_text">当前体重/kg</string>
     <string name="weight_fragment_bottome_text">你最后一次输入的时间为</string>
     <string name="weight_fragment_adder_text">添加宝宝体重</string>
+    <string name="weight_fragment_adder_doc_text">宝宝体重(kg):</string>
 </resources>

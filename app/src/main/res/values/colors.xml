@@ -153,5 +153,10 @@
     <color name="weight_fragment_right_text_color">#0000ff</color>
     <color name="weight_fragment_bottom_text_color">#0000ff</color>
     <color name="weight_fragment_adder_text_color">#0000ff</color>
+    <color name="weight_fragment_adder_title_text_color">#00ff00</color>
+    <color name="weight_fragment_adder_title_line_color">#0000ff</color>
+    <color name="weight_fragment_adder_bg_color">#eeeeee</color>
+    <color name="weight_fragment_adder_doc_text_color">#00ff00</color>
+    <color name="weight_fragment_adder_num_text_color">#0000ff</color>
 
 </resources>
