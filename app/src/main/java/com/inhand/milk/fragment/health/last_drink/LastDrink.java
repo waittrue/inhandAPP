@@ -120,13 +120,12 @@ public class LastDrink extends TitleFragment {
         long diff;
         int duration;
         Date endtime,startTime;
-        try{ endtime = simpleDateFormat.parse(record.getEndTime());
+        try{ endtime = simpleDateFormat.parse(record.getBeginTime());
              startTime = simpleDateFormat.parse(record.getBeginTime());
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
-
         diff = endtime.getTime() - startTime.getTime();
         duration = (int)diff/(1000*60);
         data.put(ItemNum,duration);
