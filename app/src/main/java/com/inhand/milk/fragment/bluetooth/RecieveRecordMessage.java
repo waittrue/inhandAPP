@@ -72,7 +72,6 @@ public class RecieveRecordMessage extends BaseRecieveMessage {
     private void setRecordTime(Record record,float continuTime,float interva ){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, -(int) interva);
-        record.setEndTime(simpleDateFormat.format(calendar.getTime()));
         calendar.add(Calendar.MINUTE, -(int)continuTime);
         record.setBeginTime(simpleDateFormat.format(calendar.getTime()));
     }
@@ -98,7 +97,6 @@ public class RecieveRecordMessage extends BaseRecieveMessage {
     private void printRecord(Record record){
         String str = new String();
         str += "开始时间:"+ record.getBeginTime()+"\n";
-        str +="结束时间:" + record.getEndTime()+"\n";
         str += "开始温度:"+ String.valueOf( record.getBeginTemperature())+"\n";
         str +="结束温度："+ String.valueOf(record.getEndTemperature())+"\n";
         str +="饮奶量"+ String.valueOf( record.getVolume())+"\n";

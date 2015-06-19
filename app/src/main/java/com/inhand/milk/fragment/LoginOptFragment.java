@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import com.avos.avoscloud.AVUser;
 import com.inhand.milk.App;
 import com.inhand.milk.R;
-import com.inhand.milk.activity.BabyInfoTestActivity;
 import com.inhand.milk.activity.FirstLanunchActivity;
 import com.inhand.milk.activity.MainActivity;
 import com.inhand.milk.activity.WelcomeActivity;
