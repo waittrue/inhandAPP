@@ -111,10 +111,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <include
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            layout="@layout/fragment_weight_ruler" />
     </FrameLayout>
 
 </LinearLayout>

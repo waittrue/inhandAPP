@@ -11,6 +11,7 @@
         <item name="android:layout_height">1px</item>
         <item name="android:background">#ddffffff</item>
     </style>
+
     <style name="top">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
@@ -181,4 +182,9 @@
     <!-- ************************分工部分********************************* -->
 
     <color name="color_white">#ffffff</color>
+
+    <style name="AnimationPopupwindow">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_in</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_out</item>
+    </style>
 </resources>

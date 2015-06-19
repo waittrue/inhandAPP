@@ -455,4 +455,6 @@ public class WeightExcle extends View {
         float minValue = this.minValue * 0.8f;
         return maxY * (1 - (value - minValue) / (maxValue - minValue));
     }
+
+
 }

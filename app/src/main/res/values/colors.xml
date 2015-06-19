@@ -151,12 +151,13 @@
     <color name="weight_fragment_ring_inner_bg_color">#ffffff</color>
     <color name="weight_fragment_left_text_color">#00ff00</color>
     <color name="weight_fragment_right_text_color">#0000ff</color>
-    <color name="weight_fragment_bottom_text_color">#0000ff</color>
-    <color name="weight_fragment_adder_text_color">#0000ff</color>
-    <color name="weight_fragment_adder_title_text_color">#00ff00</color>
-    <color name="weight_fragment_adder_title_line_color">#0000ff</color>
-    <color name="weight_fragment_adder_bg_color">#eeeeee</color>
-    <color name="weight_fragment_adder_doc_text_color">#00ff00</color>
-    <color name="weight_fragment_adder_num_text_color">#0000ff</color>
+
+    <color name="weight_fragment_bottom_text_color">#b3b3b3</color>
+    <color name="weight_fragment_adder_text_color">#ffffff</color>
+    <color name="weight_fragment_adder_title_text_color">#19d1a8</color>
+    <color name="weight_fragment_adder_title_line_color">#d0d0d0</color>
+    <color name="weight_fragment_adder_bg_color">#f0f0f0</color>
+    <color name="weight_fragment_adder_doc_text_color">#a6a6a6</color>
+    <color name="weight_fragment_adder_num_text_color">#19d1a8</color>
 
 </resources>

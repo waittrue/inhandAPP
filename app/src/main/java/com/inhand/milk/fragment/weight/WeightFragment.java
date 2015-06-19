@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,13 +19,9 @@ import android.widget.TextView;
 import com.inhand.milk.App;
 import com.inhand.milk.R;
 import com.inhand.milk.fragment.TitleFragment;
-import com.inhand.milk.utils.ObservableHorizonScrollView;
 import com.inhand.milk.utils.RingWithText;
-import com.inhand.milk.utils.firstlanunch.Ruler;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2015/6/6.
@@ -35,16 +29,10 @@ import java.util.Date;
 public class WeightFragment extends TitleFragment {
     private WeightExcle weightExcle;
     private static final String TAG = "weightFragment";
-    private static final int AnimationDuration = 1000;
     private int lastPositon = -1;
     private RingWithText ringWithText;
     private static final DecimalFormat decimalFormat = new DecimalFormat("###.##");
     private Adder adder;
-    private LinearLayout outerLayer, rulerContainer;
-    private int space;
-    private static final int spacenum = 2;
-    private TextView numTextView;
-    private ObservableHorizonScrollView scrollView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +46,6 @@ public class WeightFragment extends TitleFragment {
         initLine(view);
         initWeightExcle(view);
         initRelativeContent(view);
-        initOuter(view);
         initAdder(view);
     }
 
@@ -67,108 +54,18 @@ public class WeightFragment extends TitleFragment {
         adder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                outerLayer.setVisibility(View.VISIBLE);
+                Log.i(TAG, "click");
                 inAnimation();
             }
         });
 
     }
-
-    private void initOuter(View view) {
-        outerLayer = (LinearLayout) view.findViewById(R.id.weigth_fragment_outest_layer);
-        rulerContainer = (LinearLayout) view.findViewById(R.id.weight_fragment_ruler_container);
-        outerLayer.setVisibility(View.GONE);
-
-
-        TextView adderTitle = (TextView) view.findViewById(R.id.weight_fragment_adder_title_text);
-        adderTitle.setText(getCurrentDate());
-
-        ImageView cancleIcon = (ImageView) view.findViewById(R.id.weight_fragment_adder_cancle_icon);
-        ImageView okIcon = (ImageView) view.findViewById(R.id.weight_fragment_adder_ok_icon);
-        cancleIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                outAnimation();
-            }
-        });
-        okIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                outAnimation();
-                //还有数据存储没有做
-            }
-        });
-        numTextView = (TextView) view.findViewById(R.id.weight_fragment_adder_num_text);
-        initRuler(view);
-
-    }
-
-    private void initRuler(View view) {
-        space = App.getWindowWidth(getActivity()) / 30;
-        int height = App.getWindowHeight(getActivity()) - App.getStatusHeight(getActivity()) -
-                getResources().getDimensionPixelOffset(R.dimen.footer_navigation_fragment_height);
-        //这接下来的和布局有关,最后我们要求出ruler的高度.
-        height = height / 2;
-        height = height - getResources().getDimensionPixelOffset(R.dimen.weight_fragment_adder_title_height) -
-                getResources().getDimensionPixelOffset(R.dimen.weight_fragment_adder_title_line_height);
-        height = height / 3 - getResources().getDimensionPixelOffset(R.dimen.weight_fragment_adder_ruler_container_margin_top);
-
-        LinearLayout ruler = (LinearLayout) view.findViewById(R.id.weight_fragment_adder_really_ruler_container);
-        Ruler myRuler = new Ruler(getActivity(),
-                getResources().getDimensionPixelSize(R.dimen.weight_fragment_adder_ruler_container_width) -
-                        2 * getResources().getDimensionPixelOffset(R.dimen.weight_fragment_adder_ruler_margin_left_right),
-                0, height,
-                0, 400, space, spacenum, true);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        ruler.addView(myRuler, lp);
-        scrollView = (ObservableHorizonScrollView) view.findViewById(R.id.weight_fragment_adder_observableHorizonScorollView);
-        scrollView.setScrollViewListener(new ObservableHorizonScrollView.ScrollViewListener() {
-            @Override
-            public void onScrollChanged(ObservableHorizonScrollView scrollView, int x, int y, int oldx, int oldy) {
-                float xx = scrollView.getScrollX();
-                xx = xx / space * spacenum / 10f;
-                String str = decimalFormat.format(xx);
-                numTextView.setText(str);
-            }
-        });
-    }
-
-    private String getCurrentDate() {
-        Date today = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yy年MM月dd");
-        return sdf.format(today);
-    }
-
     private void inAnimation() {
-        int height = App.getWindowHeight(getActivity());
-        Animation animation = new TranslateAnimation(0, 0, height / 2, 0);
-        animation.setDuration(AnimationDuration);
-        rulerContainer.startAnimation(animation);
+        AdderPupupWindow floatAdderWindow = new AdderPupupWindow(getActivity());
+        floatAdderWindow.show();
     }
 
-    private void outAnimation() {
-        int height = App.getWindowHeight(getActivity());
-        Animation animation = new TranslateAnimation(0, 0, 0, height / 2);
-        animation.setDuration(AnimationDuration);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                outerLayer.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        rulerContainer.startAnimation(animation);
-
-    }
     private void initRelativeContent(View view) {
         RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.weight_fragment_ring_container);
         initRingWithText();
@@ -297,7 +194,7 @@ public class WeightFragment extends TitleFragment {
                 getResources().getDimension(R.dimen.temperature_milk_title_height) -
                 getResources().getDimension(R.dimen.milk_amount_title_divider) - App.getStatusHeight(getActivity());
         r = r / 2 / 5 * 3 / 2;//这里要跟布局图里面的那个权重对应好;
-        Log.i(TAG, String.valueOf(App.getStatusHeight(getActivity())));
+
 
         ringWithText = new RingWithText(this.getActivity(), r);
 
